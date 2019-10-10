@@ -27,70 +27,74 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 # Add tests below
-test "PINA: 0x01, 0x00 => PORTB: 0x02, 1 Button Press"
-set LED_State = LED_1
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
-checkResult
-
-test "PINA: 0x01 => PORTB: 0x01, Hold Button"
-set LED_State = LED_1
-setPINA 0x01
-continue 10
-expectPORTB 0x01
-checkResult
-
-test "PINA: 0x00 => PORTB: 0x01, No Input"
-set LED_State = LED_1
-setPINA 0x00
-continue 5
-expectPORTB 0x01
-checkResult
-
-test "PINA: 0x01, 0x00 x2 => PORTB: 0x01, 2 Button Presses"
-set LED_State = LED_1
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x01
+test "No Input => PORTC: 7"
+set Cnt_State = Wait
+continue 3
+expectPORTC 7
+expect Cnt_State Wait
 checkResult 
 
-test "PINA: 0x01, 0x00 x3 => PORTB: 0x02, 3 Button Presses"
-set LED_State = LED_1
+
+test "1 B1 Press => PORTC: 8"
+set Cnt_State = Wait
 setPINA 0x01
 continue 5
 setPINA 0x00
 continue 5
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-setPINA 0x01
-continue 5
-setPINA 0x00
-continue 5
-expectPORTB 0x02
+expectPORTC 8
+expect Cnt_State Wait
 checkResult
 
-test "PINA: 0x01, 0x00, 0x01 => PORTB: 0x02, Press once then hold"
-set LED_State = LED_1
-setPINA 0x01
-continue 10
+test "1 B2 Press => PORTC: 6"
+setPINC 7
+set Cnt_State = Wait
+setPINA 0x02
+continue 5
 setPINA 0x00
 continue 5
+expectPORTC 6
+checkResult
+
+test "1 B1 & B2 Press => PORTC: 0"
+set Cnt_State = Wait
+setPINA 0x03
+continue 5
+setPINA 0x00
+continue 5
+expectPORTC 0
+expect Cnt_State Wait
+checkResult
+
+test "B1 Held => State: B1_Held"
+set Cnt_State = Wait
 setPINA 0x01
 continue 10
-expectPORTB 0x02
+expect Cnt_State B1_Held
 checkResult
- 
+
+test "B2 Held => State: B2_Held"
+set Cnt_State = Wait
+setPINA 0x02
+continue 10
+expect Cnt_State B2_Held
+checkResult
+
+test "2 B1 Presses => PORTC: 9"
+set Cnt_State = Wait
+setPINC 7
+setPINA 0x01
+continue 5
+setPINA 0x00
+continue 5
+setPINA 0x02
+continue 5
+setPINA 0x00
+continue 5
+expectPORTC 9
+expect Cnt_State Wait
+checkResult
+
+
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed

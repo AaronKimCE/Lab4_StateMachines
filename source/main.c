@@ -11,83 +11,103 @@
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
-#define button PINA & 0x01
-#define LED PORTB
+#define B1 (PINA & 0x01)
+#define B2 (PINA & 0x02)
+#define Output PORTC
 
-enum LED_States { LED_1, Held_1, LED_2, Held_2 } LED_State; //Enumerating States
+enum Cnt_States { Wait, B1_Held, B2_Held, Increment, Decrement, Reset } Cnt_State; //Enumerating States
 
-void TickFct_LED() { //Transitions between states
-    switch(LED_State) {
-      case LED_1: //LED1 is on
-        if (!button) {
-          LED_State = LED_1;
+void TickFct_Cnt() { //Transitions between states
+    switch(Cnt_State) {
+      case Wait: //LED1 is on
+        if ((B1 == 0x01) && (B2 == 0x00)) {
+          Cnt_State = B1_Held;
           break;
-        } else if (button) {
-          LED_State = Held_1;
+        } else if ((B1 == 0x00) && (B2 == 0x02)) {
+          Cnt_State = B2_Held;
+          break;
+        } else if ((B1 == 0x01) && (B2 == 0x02)) {
+          Cnt_State = Reset;
           break;
         } else {
-          LED_State = LED_1;
-          break;
-        }
-      
-      case Held_1: //First button press
-        if (!button) {
-          LED_State = LED_2;
-          break;
-        } else if (button) {
-          LED_State = Held_1;
-          break;
-        } else {
-          LED_State = Held_1;
+          Cnt_State = Wait;
           break;
         }
 
-      case LED_2:
-        if (!button) { //LED 2 is on
-          LED_State = LED_2;
+      case B1_Held: 
+        if ((B1 == 0x01) && (B2 == 0x00)) {
+          Cnt_State = B1_Held;
           break;
-        } else if (button) {
-          LED_State = Held_2;
+        } else if ((B1 == 0x01) && (B2 == 0x02)) {
+          Cnt_State = Reset;
           break;
         } else {
-          LED_State = LED_2;
+          Cnt_State = Increment;
           break;
         }
 
-      case Held_2: //Button press again
-        if (!button) {
-          LED_State = LED_1;
+      case B2_Held:
+        if ((B1 == 0x00) && (B2 == 0x02)) {
+          Cnt_State = B2_Held;
           break;
-        } else if (button) {
-          LED_State = Held_2;
+        } else if ((B1 == 0x01) && (B2 == 0x02)) {
+          Cnt_State = Reset;
           break;
         } else {
-          LED_State = Held_2;
+          Cnt_State = Decrement;
           break;
         }
 
+      case Increment:
+        Cnt_State = Wait;
+        break;
+
+      case Decrement:
+        Cnt_State = Wait;
+        break;
+
+      case Reset:
+        if (B1 && B2) {
+          Cnt_State = Reset;
+          break;
+        } else {
+          Cnt_State = Wait;
+          break;
+        }
+
+       
       default:
-        LED_State = LED_1;
+        Cnt_State = Wait;
         break;
     }
 
-    switch (LED_State) { //State actions
-      case LED_1: //LED 1 is on initially
-        LED = (LED & 0x00) | 0x01;
+    switch (Cnt_State) { //State actions
+      case Wait: //Do nothing on wait
+        Output = Output;
         break;
 
-      case Held_1: //Button is not released yet
-        LED = (LED & 0x00) | 0x01;
+      case B1_Held: //Button is not released yet
+        Output = Output;
         break;
 
-      case LED_2: //LED 2 is on after button release
-        LED = (LED & 0x00) | 0x02;
+      case B2_Held: //LED 2 is on after button release
+        Output = Output;
         break;
 
-      case Held_2: //Button is not released
-        LED = (LED & 0x00) | 0x02;
+      case Increment: //Button is not released
+        if (Output < 9) {
+          Output = ++Output;
+        }
         break;
       
+      case Decrement: //Button is not released
+        Output = --Output;
+        break;
+
+      case Reset: //Button is not released
+        Output = Output & 0x00;
+        break;
+
       default:
         break; 
     }
@@ -95,11 +115,11 @@ void TickFct_LED() { //Transitions between states
 
 int main(void) {
     DDRA = 0x00; PORTA = 0x00; //PORT A = inputs
-    DDRB = 0xFF; PORTB = 0x00; //PORT C = outputs
-    LED_State = LED_1; //Setting initial state
+    DDRC = 0xFF; PORTC = 0x07; //PORT C = outputs
+    Cnt_State = Wait; //Setting initial state
 
     while (1) {
-      TickFct_LED(); //Repeating state logic      
+      TickFct_Cnt(); //Repeating state logic      
     }
     return 1;
 }
