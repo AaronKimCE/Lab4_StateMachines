@@ -3,5 +3,5 @@ Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"PINA: 0x01, 0x00 => PORTB: 0x02, 1 Button Press"..."PINA: 0x01 => PORTB: 0x01, Hold Button"..."PINA: 0x00 => PORTB: 0x01, No Input"..."PINA: 0x01, 0x00 x2 => PORTB: 0x01, 2 Button Presses"...======================================================
+"PINA: 0x01, 0x00 => PORTB: 0x02, 1 Button Press"..."PINA: 0x01 => PORTB: 0x01, Hold Button"..."PINA: 0x00 => PORTB: 0x01, No Input"..."PINA: 0x01, 0x00 x2 => PORTB: 0x01, 2 Button Presses"..."PINA: 0x01, 0x00 x3 => PORTB: 0x02, 3 Button Presses"..."PINA: 0x01, 0x00, 0x01 => PORTB: 0x02, Press once then hold"...======================================================
 Quitting: Remote doesn't know how to detach
