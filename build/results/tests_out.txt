@@ -1,4 +1,4 @@
-Breakpoint 1 at 0x28a: file source/main.c, line 121.
+Breakpoint 1 at 0x296: file source/main.c, line 111.
 Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
@@ -8,6 +8,6 @@ Running all tests..."
 	PORTC '0x800028:	0x07
 "1 B1 & B2 Press => PORTC: 0"..."B1 Held => State: B1_Held"..."B2 Held => State: B2_Held"..."2 B1 Presses => PORTC: 9"...
 	Expected 9 
-	PORTC '0x800028:	0x00
+	PORTC '0x800028:	0x02
 ======================================================
 Quitting: Remote doesn't know how to detach

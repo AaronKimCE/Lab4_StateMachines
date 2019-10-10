@@ -42,15 +42,11 @@ continue 5
 setPINA 0x00
 continue 5
 expectPORTC 8
-expect Cnt_State Wait
 checkResult
 
 test "1 B2 Press => PORTC: 6"
-setPINC 7
 set Cnt_State = Wait
 setPINA 0x02
-continue 5
-setPINA 0x00
 continue 5
 expectPORTC 6
 checkResult
@@ -83,15 +79,14 @@ test "2 B1 Presses => PORTC: 9"
 set Cnt_State = Wait
 setPINC 7
 setPINA 0x01
-continue 5
+continue 2
 setPINA 0x00
-continue 5
-setPINA 0x02
-continue 5
+continue 2
+setPINA 0x01
+continue 2
 setPINA 0x00
-continue 5
+continue 2
 expectPORTC 9
-expect Cnt_State Wait
 checkResult
 
 
