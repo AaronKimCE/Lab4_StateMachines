@@ -15,12 +15,10 @@
 enum Cnt_States{Wait, B1_Held, B2_Held, Increment, Decrement, Reset} Cnt_State; //Enumerating States
 
 unsigned char Output;
-unsigned char B1;
-unsigned char B2;
 
 void TickFct_Cnt() { //Transitions between states
-    B1 = PINA & 0x01;
-    B2 = PINA & 0x02;
+    unsigned char B1 = PINA & 0x01;
+    unsigned char B2 = PINA & 0x02;
 
     switch(Cnt_State) {
       case Wait: //LED1 is on
