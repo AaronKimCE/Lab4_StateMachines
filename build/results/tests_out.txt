@@ -1,13 +1,7 @@
-Breakpoint 1 at 0x28a: file source/main.c, line 109.
+Breakpoint 1 at 0x272: file source/main.c, line 97.
 Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"No Input => PORTC: 7"..."1 B1 Press => PORTC: 8"..."1 B2 Press => PORTC: 6"...
-	Expected 6 
-	PORTC '0x800028:	0x07
-"1 B1 & B2 Press => PORTC: 0"..."B1 Held => State: B1_Held"..."B2 Held => State: B2_Held"..."2 B1 Presses => PORTC: 9"...
-	Expected 9 
-	PORTC '0x800028:	0x02
-======================================================
+"No Input => PORTB: 0"..."PA2 press > PA1 press (Correct Order) => PORTB: 1"..."PA2 press > PA1 press > PA7 press (Correct Order & Lock) => PORTB: 0"..."PA2 press > PA2 press (Wrong Order) => PORTB: 0"..."All press > All press (Pressing all 3 buttons) => PORTB: 0"..."PA2 press > PA1 hold > PA0 press (Double button press) => PORTB: 0"..."PA0 press > PA2 press > PA1 press (Wrong then Correct Order) => PORTB: 1"..."PA2 hold > PA1 hold (Correct Order w/out releasing button) => PORTB: 0"...======================================================
 Quitting: Remote doesn't know how to detach
