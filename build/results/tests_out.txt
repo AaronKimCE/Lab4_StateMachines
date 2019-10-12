@@ -1,7 +1,7 @@
-Breakpoint 1 at 0x272: file source/main.c, line 97.
+Breakpoint 1 at 0x2a2: file source/main.c, line 103.
 Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"No Input => PORTB: 0"..."PA2 press > PA1 press (Correct Order) => PORTB: 1"..."PA2 press > PA1 press > PA7 press (Correct Order & Lock) => PORTB: 0"..."PA2 press > PA2 press (Wrong Order) => PORTB: 0"..."All press > All press (Pressing all 3 buttons) => PORTB: 0"..."PA2 press > PA1 hold > PA0 press (Double button press) => PORTB: 0"..."PA0 press > PA2 press > PA1 press (Wrong then Correct Order) => PORTB: 1"..."PA2 hold > PA1 hold (Correct Order w/out releasing button) => PORTB: 0"...======================================================
+"No Input => PORTC: 7"..."One B1 Press => PORTC: 8"..."One B2 Press => PORTC: 6"..."Two B1 Presses => PORTC: 9"..."Two B2 Presses => PORTC: 5"..."Reset Press => PORTC: 0"..."Reset Press & B1 Press => PORTC: 1"..."Hold B1 then Both => PORTC: 0"..."Hold B2 then Both => PORTC: 0"..."Hold B1 => State: Press_1"..."Hold B2 => State: Press_2"..."Hold B1 & B2 => State: Reset"...======================================================
 Quitting: Remote doesn't know how to detach
